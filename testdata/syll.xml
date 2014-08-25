@@ -1,0 +1,124 @@
+<syllabus>
+ <lastmod>Aug. 21, 2013</lastmod>
+
+ <coursename>Introduction to Latin, F13</coursename>
+
+ <!-- Make a running list of day entries.
+Then move them around or pad them to fit this semester's calendar.
+-->
+
+ <fixeddates>
+   <day date="October 14">Fall break</day>
+   <day date="October 16">Fall break</day>
+   <day date="October 18">Fall break</day>
+   <day date="November 27">Thanksgiving holiday</day>
+
+
+   <day date="${examnotice}">Final exam: 11:30, ${finalexam}</day>
+
+
+   <day date="${exam1}">First mid-term exam ${exam1}</day>
+   <day date="${exam2}">Hour exam</day>
+  <day date="${studyperiod}">Study period ${studyperiod}, revised papers due Fri., ${paperfinal}; final exam ${finalexam} </day>
+
+ </fixeddates>
+
+
+ <day key="null">Advising and registration</day>
+ <day key="alphabet.html">Introduction to course; the alphabet</day>
+ <day key="accents.html">Quiz on alphabet; Lesson I: verbs</day>
+
+ <day key="verbs1.html">Lesson I: verbs</day> 
+<day key="nouns1.html">Lesson I: nouns</day>
+ <day key="review1.html">Quiz on verb forms; Lesson I: reading and review</day> 
+
+<day key="impft.html">Lesson II: imperfect, "to be", enclitics
+(Quiz on principal parts of verbs)</day>
+
+<day key="impft-drill.html"><!--Vocabulary quiz on nouns, particles, and prepositions from I; -->Lesson II:
+using the imperfect
+</day>
+<day key="adj.html">Quiz on verb conjugations:  
+present and imperfect, present and middle/passive.
+<!--Vocabulary quiz on nouns, particles, and prepositions from I; -->Lesson II:
+first and second declension adjectives
+</day>
+
+<day key="relative.html">Lesson II:  the relative pronoun</day>
+<day key="exam1review.html">Review</day>
+<day key="exam1.html">Exam 1</day>
+
+
+<day key="future.html"><!--Vocabulary quiz on Lesson II; -->Lesson III:
+the future indicative, active and middle voice</day>
+
+<day key="firstdecl.html"><!--Vocabulary quiz on Lesson II; -->Lesson III:
+more first-declension noun patterns
+</day>
+<day key="agent.html">Lesson III: agent with passive voice. Quiz on prepositions.
+</day>
+
+<day key="review3.html">Lesson III:
+quiz on first 3 principal parts of all verbs in chapters 1-3.
+Readings from Lessons I–III.
+</day>
+
+<day key="aorist1.html"><!--Vocabulary quiz on nouns, adjectives, and prepositions from Lesson III; -->
+  Chapter IV: the first aorist
+</day>
+
+<day key="aorist2.html">
+Chapter IV:  the second aorist</day>
+
+<day key="null">Fall break</day>
+<day key="null">Fall break</day>
+<day key="null">Fall break</day>
+
+
+<day key="review4.html">Review of the aorist</day>
+<day key="indirect.html">Indirect statement</day>
+<day key="none">Plato's Meno</day>
+
+<day key="thirdnouns.html">Lesson 5: third-declension nouns</day>
+<day key="none">Exam review</day>
+<day key="none">Second hour exam</day>
+
+<day key="thirdadjs.html">Lesson 6: third-declension adjectives</day>
+<day key="recap.html">Exam recap; introduction to conditions</day>
+
+
+<day key="results-conds.html">Result clauses; conditions</day>
+<day key="subj-conds.html">Lesson 13:  The present and aorist 
+subjunctive of regular -ω verbs</day>
+
+<day key="opt-conds.html">Lesson 13:  The present, future and aorist optative
+ of regular -ω verbs
+</day>
+<day key="conds-review.html">All conditions:  review</day>
+
+
+<day key="ptcpls1.html">Lesson 7:  participles, 1</day>
+<day key="ptcpls2.html">Lesson 7: participles, 2</day>
+
+<day key="genabs.html">Lesson 7: genitive absolute</day>
+<day key="none">Participles: review;
+in class: sight reading</day>
+
+
+
+<day key="null">Thanksgiving holiday</day>
+<day key="null">Thanksgiving holiday</day>
+
+<day key="syntaxreview.html">Overview of syntax of the complex sentence</day>
+
+<day key="pronouns.html">Lesson 8:  pronouns</day>
+
+<day key="perfectact.html">Lesson 8:  the perfect active</day>
+<day key="plupact.html">Lesson 8:  the pluperfect and future perfect</day>
+<day key="irregpfts.html">Lesson 8: irregular verbs</day>
+
+
+
+<day key="none">Exam review</day>
+
+</syllabus>
