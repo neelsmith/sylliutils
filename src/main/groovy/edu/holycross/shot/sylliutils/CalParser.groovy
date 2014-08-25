@@ -130,13 +130,39 @@ class CalParser {
 
 
 
+  void toXml(File calFile, File outputFile) { 
+    toXml(calFile.getText(), outputFile)
+  }
+
+  /** Writes to outputFile the seriliazation
+   * as XML of a multiline source string
+   * as formatted by cal.
+   * @param calSource String as output by cal.
+   * @param outputFile File where output should be
+   * written.
+   */
+  void toXml(String calSource, File outputFile) { 
+    outputFile.setText(toXml(calSource))
+  }
 
 
-
+  /** Serializes to XML data as
+   * formatted by cal, read from a file.
+   * @param f File with soruce data.
+   * @returns A well-formed XML string using the
+   * idiosyncratic markup of this project.
+   */
   String toXml(File f) {
     return toXml(f.getText())
   }
 
+
+  /** Serializes to XML a multiline source string
+   * as formatted by cal.
+   * @param calSource String as output by cal.
+   * @returns A well-formed XML string using the
+   * idiosyncratic markup of this project.
+   */
   String toXml(String calSource) {
     def currentCal = Calendar.instance
     Integer yr = currentCal.get(Calendar.YEAR)
@@ -213,74 +239,5 @@ class CalParser {
 
 
 }
-  /*
 
-
-  */
-
-
-
-/*
-
-
-*/  
-/*
-
-
-sub printweek {
-    $daycnt = 0;
-    print "\n<week>\n";
-    foreach $day (@_) {
-	$day =~ s/ //g;
-
-	if ($day ne "") {
-	    print "<day dayname=\"$daynames[$daycnt]\" date=\"$day\" month=\"$month\" " ;
-
-	    if ($daynames[$daycnt] eq "tue") {
-		$tth++;
-		print " tth=\"$tth\"";
-		$mtth++;
-		print " mtth=\"$mtth\"";
-	    } 
-
-	    if  ($daynames[$daycnt] eq "thu") { 
-		$tth++;
-		print " tth=\"$tth\" ";
-		$mtth++;
-		print " mtth=\"$mtth\" ";
-	    }
-
-
-	    if  ($daynames[$daycnt] eq "mon") { 
-		$mtth++;
-		print "mtth=\"$mtth\"";
-		$mw++;
-		print " mw=\"$mw\"";
-		$mwf++;
-		print " mwf=\"$mwf\"";
-	    }
-
-
-	    if (($daynames[$daycnt] eq "wed")) {
-		$wed++;
-		print " wed=\"$wed\"";
-		$mw++;
-		print " mw=\"$mw\"";
-		$mwf++;
-		print " mwf=\"$mwf\"";
-	    } 
-
-	    if (($daynames[$daycnt] eq "fri")) {
-		$mwf++;
-		print " mwf=\"$mwf\"";
-	    } 
-
-
-            print " year=\"$yr\">$day</day>\n";
-	    }
-	$daycnt++;
-    }
-    print "\n</week>";
-}
-********/
 
