@@ -4,7 +4,7 @@ import static org.junit.Assert.*
 import org.junit.Test
 
 
-class TestCal extends GroovyTestCase {
+class TestMWF extends GroovyTestCase {
     
   String courseFile = "testdata/syll.xml"
   String calFile = "testdata/f13.xml"

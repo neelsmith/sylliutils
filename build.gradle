@@ -34,6 +34,9 @@ if (project.hasProperty('pub')) {
 }
 
 
+group = "edu.holycross.shot"
+version = "2014.1"
+
 
 uploadArchives {
     repositories.mavenDeployer {

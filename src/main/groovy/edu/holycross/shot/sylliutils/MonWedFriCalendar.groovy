@@ -1,5 +1,3 @@
-
-
 package edu.holycross.shot.sylliutils
 
 import groovy.xml.StreamingMarkupBuilder
