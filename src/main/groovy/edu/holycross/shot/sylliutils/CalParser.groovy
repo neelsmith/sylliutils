@@ -44,43 +44,64 @@ class CalParser {
   }
 
 
+  LinkedHashMap parseCal(File f) {
+    return parseCal(f.getText())
+  }
+
+  LinkedHashMap parseCal(String txt) {
+    def currentCal = Calendar.instance
+    Integer yr = currentCal.get(Calendar.YEAR)
+    return parseCal(txt, yr)
+  }
+
+  LinkedHashMap parseCal(String txt, Integer yr) {
+    LinkedHashMap monthly = [:]
+    System.err.println "YEAR: " + yr
+
+
+    String currentMonth = ""
+    def  currentWeekList = []
+    txt.eachLine { ln ->
+      // Look for month label: pattern is MONTH ${yr}
+      if (ln ==~ /.+${yr}.*/) {
+	if ((currentMonth != "") && (currentWeekList.size() > 0)) {
+	  monthly[currentMonth] = currentWeekList
+	}
+	def cols =  ln.split(/[ ]+/)
+	currentMonth = cols[1]
+	currentWeekList.clear()
+	
+	
+      } else if (ln ==~ /^Su.+/) {
+	// skip day heading
+	
+      } else {
+	ArrayList wk = parseWeekString(ln)
+	currentWeekList.add(wk)
+      }
+    }
+    // Get last one!
+    monthly[currentMonth] = currentWeekList
+
+    return monthly
+  }
+
+
 }
   /*
-File calFile = new File(args[0])
-
-
-
-def currentCal = Calendar.instance
-Integer yr = currentCal.get(Calendar.YEAR)
-
-
-
 Integer tth = 0
 Integer mtth = 0
 Integer wed = 0
 Integer mw = 0
 Integer mwf = 0
 
+  */
 
 
 
+/*
 
 
-
-String month = ""
-calFile.eachLine { ln ->
-  // Look for month label: pattern is MONTH ${yr}
-  if (ln ==~ /.+${yr}.*  /) {
-    def cols =  ln.split(/[ ]+/)
-    month = cols[1]
-  } else if (ln ==~ /^Su.+/) {
-    // skip day heading
-    
-  } else {
-    ArrayList wk = initWeek(ln)
-    println wk
-  }
-}
 */  
 /*
 
