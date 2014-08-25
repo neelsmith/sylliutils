@@ -4,7 +4,7 @@ import static org.junit.Assert.*
 import org.junit.Test
 
 
-class TestParser extends GroovyTestCase {
+class TestLineParser extends GroovyTestCase {
     
   String leadingZeroes = " 2  3  4  5  6  7  8"
   String lateStart = "          1  2  3  4"
