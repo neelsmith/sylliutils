@@ -22,14 +22,19 @@ class TThCalendar {
   /** Map of dates -> events. */
   def fixedDates = [:]
 
-
-  
   def highlights = []
 
   // ordered list of pairings, key + label
   def courseDays = []
   def pairingDivider = '#'
 
+
+
+  /** String to use in setting link to main css file,
+   * following link to normalize.css, and prior to
+   * calendar.css.
+   */
+  String mainCss = "css/greek.css"
 
   TThCalendar(String courseFileName, String calFileName, File outputFile) 
   throws Exception {
@@ -178,55 +183,55 @@ class TThCalendar {
     }
   }
 
-    void printCal() {
-        this.fixedDates = extractFixedDates()
+  void printCal() {
+    this.fixedDates = extractFixedDates()
 
-        def coursename = courseXml.coursename.text()
-        def lastmod = courseXml.lastmod.text()
+    def coursename = courseXml.coursename.text()
+    def lastmod = courseXml.lastmod.text()
 
-        def tab  = buildHtmlTable()
+    def tab  = buildHtmlTable()
+    
+    def builder = new StreamingMarkupBuilder()
+    def htmlOut = builder.bind() {
+      //mkp.xmlDeclaration()
+      html {
+	head {
+	  meta(charset : "UTF-8")
+	  title ("${coursename}: schedule")
+	  link (rel : "stylesheet", type : "text/css", href : "css/normalize.css")
+	  link (rel : "stylesheet", type : "text/css", href : "${mainCss}" )
+	  link (rel : "stylesheet", type : "text/css", href : "css/calendar.css")
+	}
 
-        def builder = new StreamingMarkupBuilder()
-        def htmlOut = builder.bind() {
-            //mkp.xmlDeclaration()
-            html {
-                head {
-                    meta(charset : "UTF-8")
-                    title ("${coursename}: schedule")
-                    link (rel : "stylesheet", type : "text/css", href : "css/normalize.css")
-                    link (rel : "stylesheet", type : "text/css", href : "css/greek.css")
-                    link (rel : "stylesheet", type : "text/css", href : "css/calendar.css")
-                }
-                body {
-                    header {
-                    }
-                    nav {
-                        ul {
-                            li {
-                                mkp.yield "Course "
-                                a (href : "index.html","home page")
-                            }
-                            li {
-                                a (href : "requirements.html", "requirements")
-                            }
-                            
-                            li {
-                                a (href : "resources.html", "resources")
-                            }
-                        }
-                    }
+	body {
+	  header (role: "banner") {
+	    nav(role: "navigation") {
+	      ul {
+		li {
+		  mkp.yield "Course "
+		  a (href : "index.html","home page")
+		}
+		li {
+		  a (href : "requirements.html", "requirements")
+		}
+		li {
+		  a (href : "resources.html", "resources")
+		}
+	      }
+	    }
 
-                    article {
-                        h1("Course schedule: ${coursename}")
-                        p (class : "lastmod", "${lastmod}")
-                        out << tab
-                    }
-                    footer {}
-                 }
-              }
-         }
-         outFile <<  htmlOut
+	    article(role: "main") {
+	      h1("Course schedule: ${coursename}")
+	      p (class : "lastmod", "${lastmod}")
+	      out << tab
+	    }
+	    footer {}
+	  }
+	}
+      }
     }
+    outFile <<  htmlOut
+  }
 
 }
 

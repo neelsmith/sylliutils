@@ -35,7 +35,7 @@ if (project.hasProperty('pub')) {
 
 
 group = "edu.holycross.shot"
-version = "2014.3"
+version = "2014.6"
 
 
 uploadArchives {

@@ -33,7 +33,7 @@ Su Mo Tu We Th Fr Sa
 
     assert calendar.keySet().size() == 2
     def septWeeks = calendar["September"]
-    asser septWeeks.size()  == 5
+    assert septWeeks.size()  == 5
   }
 
 
