@@ -1,0 +1,34 @@
+<syllabus>
+ <lastmod>Aug. 21, 2013</lastmod>
+
+ <coursename>Mock Course calendar, F13</coursename>
+
+ <!-- Make a running list of day entries.
+Then move them around or pad them to fit this semester's calendar.
+-->
+
+ <fixeddates>
+   <day date="October 14">Fall break</day>
+   <day date="October 16">Fall break</day>
+   <day date="October 18">Fall break</day>
+   <day date="November 27">Thanksgiving holiday</day>
+
+
+   <day date="${examnotice}">Final exam: 11:30, @finalexam@</day>
+
+
+   <day date="@exam1@">First mid-term exam @exam1@</day>
+   <day date="@exam2@">Hour exam</day>
+  <day date="@studyperiod@">Study period @studyperiod@, revised papers due Fri., @paperfinal@; final exam @finalexam@ </day>
+
+ </fixeddates>
+
+
+ <day key="null">Advising and registration</day>
+ <day key="alphabet.html">Introduction to course; schola brevis</day>
+
+
+<day key="none">Tues class</day>
+  <day key="none">Thurs class</day>
+  
+</syllabus>
