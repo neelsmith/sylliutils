@@ -26,9 +26,9 @@ class TThCalendar {
 
   // ordered list of pairings, key + label
   def courseDays = []
-  def pairingDivider = '#'
 
-
+  
+  String pairingDivider = '#'
 
   /** String to use in setting link to main css file,
    * following link to normalize.css, and prior to
@@ -36,6 +36,12 @@ class TThCalendar {
    */
   String mainCss = "css/greek.css"
 
+
+  /** Constructor requiring two input files and an output file.
+   * @param courseFileName Name of XML file with sequence of topics.
+   * @param calFileName Name of file with calendar data.
+   * @param outputFile Writable file for resulting HTML.
+   */
   TThCalendar(String courseFileName, String calFileName, File outputFile) 
   throws Exception {
     courseData = new File(courseFileName)
@@ -55,6 +61,9 @@ class TThCalendar {
   }
 
 
+  /** Creates map of special or extracurricular events 
+   * keyed by date string.
+   */
   LinkedHashMap extractFixedDates() {
     def fixedDateMap = [:]
     this.courseXml.fixeddates[0].day.each { d ->
@@ -63,6 +72,9 @@ class TThCalendar {
     return fixedDateMap
   }
 
+
+  /** Creates ordered list of daily topics
+   */
   ArrayList getCourseDays() {
     def dayList = []
     this.courseXml.day.each { d ->
@@ -72,6 +84,7 @@ class TThCalendar {
     System.err.println "Number of events to schedule = " + dayList.size()
     return dayList
   }
+
 
 
   Object buildHtmlTable() {
@@ -95,7 +108,7 @@ class TThCalendar {
 	    if (debug > WARN) { System.err.println "FOUND FIXED DATE for ${tuesDateString}:  " + fixedDates[tuesDateString]}
 	    highlights.add(fixedDates[tuesDateString])
 	  } else {
-	    if (debug < WARN) { System.err.println "NO MATCH IN FIXED DATES FOR ${tuesDateString}" }
+	    if (debug > WARN) { System.err.println "NO MATCH IN FIXED DATES FOR ${tuesDateString}" }
 	    // no match
 	  }
                     
@@ -108,18 +121,15 @@ class TThCalendar {
 	    Integer thursIdx = Integer.parseInt(nextEvt.'@tth' ) - 1
 	    def thursDateString =  "${nextEvt.'@month'} ${nextEvt.'@date'}"
 	    if (fixedDates[thursDateString]) {
-	      if (debug) { println "FIXED DATE: " + fixedDates[thursDateString] } 
+	      if (debug > WARN) { println "FIXED DATE: " + fixedDates[thursDateString] } 
 	      highlights.add(fixedDates[thursDateString])
 	    }
-
-
-
 
 	    tr {
 	      //TUESDAY
 	      td () {
 		span(class : "dateLabel", "${tuesDateString}") 
-		if (debug) {println "Tues ${tuesIdx}-${tuesDateString} "}
+		if (debug > WARN) {println "Tues ${tuesIdx}-${tuesDateString} "}
 		if (tuesIdx < courseDays.size()) {
 		  def keyValArr = courseDays[tuesIdx].split(pairingDivider)
 		  switch (keyValArr[0]) {
@@ -145,7 +155,7 @@ class TThCalendar {
 	      // THURSDAY
 	      td () {
 		span(class : "dateLabel", "${thursDateString}") 
-		if (debug) {println "Thurs ${thursIdx}-${thursDateString} "}
+		if (debug > WARN) {println "Thurs ${thursIdx}-${thursDateString} "}
 		if (thursIdx < courseDays.size()) {
 		  def keyValArr = courseDays[thursIdx].split(pairingDivider)
 		  switch (keyValArr[0]) {
@@ -219,14 +229,14 @@ class TThCalendar {
 		}
 	      }
 	    }
-
-	    article(role: "main") {
-	      h1("Course schedule: ${coursename}")
-	      p (class : "lastmod", "${lastmod}")
-	      out << tab
-	    }
-	    footer {}
 	  }
+
+	  article(role: "main") {
+	    h1("Course schedule: ${coursename}")
+	    p (class : "lastmod", "${lastmod}")
+	    out << tab
+	  }
+	  footer {}
 	}
       }
     }

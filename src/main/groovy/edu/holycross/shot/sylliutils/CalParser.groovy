@@ -8,6 +8,13 @@ import groovy.xml.MarkupBuilder
 
 class CalParser {
 
+  Integer debug = 0
+  Integer WARN = 1
+  Integer BUG = 2
+  Integer SHOUT = 3
+
+
+
   /** Ordered list of Strings as spelled
    * by cal.
    */
@@ -31,7 +38,7 @@ class CalParser {
     "sat"
   ]
 
-
+  /** Empty constructor.*/
   CalParser() {
   }
 
@@ -71,6 +78,11 @@ class CalParser {
     return parseCal(f.getText())
   }
 
+  LinkedHashMap parseCal(File f, Integer yr) {
+    return parseCal(f.getText(), yr)
+  }
+
+  
 
   /** Parses multiple lines of String as output from
    * cal, and creates a hash of month names to an ordered
@@ -98,21 +110,40 @@ class CalParser {
    */
   LinkedHashMap parseCal(String txt, Integer yr) {
     LinkedHashMap monthly = [:]
-    System.err.println "YEAR: " + yr
 
+    if (debug >= WARN) { System.err.println "CalParser:parseCal: parsing text with yr = " + yr }
 
     String currentMonth = ""
     def  currentWeekList = []
     txt.eachLine { ln ->
+      if (debug > WARN) { System.err.println "\tmonthly " + monthly}
       // Look for month label: pattern is MONTH ${yr}
       if (ln ==~ /.+${yr}.*/) {
+	if (debug >= WARN) {
+	  System.err.println "Parsing month " + ln
+	}
 	if ((currentMonth != "") && (currentWeekList.size() > 0)) {
-	  monthly[currentMonth] = currentWeekList
+
+	  def lsCopy = []
+	  currentWeekList.each {
+	    lsCopy.add(it)
+	  }
+	  monthly[currentMonth] = lsCopy
+	  if (debug > WARN) {
+	    System.err.println "STORE CAL FOR MONTH : " + currentMonth
+	    System.err.println "its cal is " + monthly[currentMonth] 
+	    System.err.println " and montly is now " + monthly + "\n"
+	    
+	  }
 	}
 	def cols =  ln.split(/[ ]+/)
+	String prevMonth = currentMonth
 	currentMonth = cols[1]
 	currentWeekList.clear()
-	
+	if (debug > WARN) {
+	  System.err.println "\nRESET month to new month" + currentMonth
+	  System.err.println "monthly for prev ${prevMonth} is " + monthly
+	}
 	
       } else if (ln ==~ /^Su.+/) {
 	// skip day heading
@@ -120,11 +151,31 @@ class CalParser {
       } else {
 	ArrayList wk = parseWeekString(ln)
 	currentWeekList.add(wk)
+	if (debug > BUG) {
+	  System.err.println "parse week " + wk
+	  System.err.println "currentWeekList now " + currentWeekList + "\n"
+	}
       }
     }
-    // Get last one!
-    monthly[currentMonth] = currentWeekList
+    if (debug > WARN) { System.err.println "AT END OF FIEL LOOP: montly " + monthly}
 
+
+
+    // Get last one!
+    if (debug > WARN) {
+      System.err.println "at end: currentWeekList: " + currentWeekList
+      System.err.println "Before final assignment to monthly: " + monthly
+    }
+    monthly[currentMonth] = currentWeekList
+    if (debug > WARN) {
+
+      System.err.println "STORE CAL FOR FINAL MONTH : " + currentMonth      
+      System.err.println monthly[currentMonth]
+      System.err.println "\nReturning entire monthly struct " + monthly
+    }
+
+    
+    
     return monthly
   }
 
@@ -134,7 +185,7 @@ class CalParser {
     toXml(calFile.getText(), outputFile)
   }
 
-  /** Writes to outputFile the seriliazation
+  /** Writes to outputFile the serialization
    * as XML of a multiline source string
    * as formatted by cal.
    * @param calSource String as output by cal.
@@ -166,10 +217,15 @@ class CalParser {
   String toXml(String calSource) {
     def currentCal = Calendar.instance
     Integer yr = currentCal.get(Calendar.YEAR)
+    return toXml(calSource, yr)
+  }
 
+  String toXml(String calSource, Integer yr) {
+    
     LinkedHashMap monthMap = parseCal(calSource, yr)
 
 
+    Integer stth = 0
     Integer tth = 0
     Integer mtth = 0
     Integer wed = 0
@@ -192,13 +248,17 @@ class CalParser {
 
 		    String weekDay = dayNameValues[idx]
 		    switch (weekDay) {
-
-
+		    case "sun":
+		    stth++;
+		    day(date : d, dayname: "${weekDay}", month: m, year: yr, stth: stth, "${d}" )
+		    break
+		    
 		    case "tue":
 		    case "thu":
+		    stth++;
 		    tth++;
 		    mtth++;
-		    day(date : d, dayname: "${weekDay}", mtth: mtth,tth: tth, month: m, year: yr, "${d}" )
+		    day(date : d, dayname: "${weekDay}", mtth: mtth,tth: tth, month: m, year: yr, stth: stth, "${d}" )
 		    break
 
 
