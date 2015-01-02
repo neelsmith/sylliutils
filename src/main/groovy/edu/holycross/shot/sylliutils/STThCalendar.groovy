@@ -151,7 +151,7 @@ class STThCalendar {
 		// TUESDAY:
 		td () {
 		  span(class : "dateLabel", "${tuesDateString}") 
-		  if (debug) {println "Thurs ${tuesIdx}-${tuesDateString} "}
+		  if (debug) {println "Tues ${tuesIdx}-${tuesDateString} "}
 		  if (tuesIdx < courseDays.size()) {
 		    def keyValArr = courseDays[tuesIdx].split(pairingDivider)
 		    switch (keyValArr[0]) {
@@ -176,7 +176,7 @@ class STThCalendar {
 		// THURSDAY
 		td() {
 		  span(class : "dateLabel", "${thursDateString}") 
-		  if (debug) {println "THURS ${thursIdx}-${thursDateString} "}
+		  if (debug) {println "Thurs ${thursIdx}-${thursDateString} "}
 		  if (thursIdx < courseDays.size()) {
 		    def keyValArr = courseDays[thursIdx].split(pairingDivider)
 		    switch (keyValArr[0]) {

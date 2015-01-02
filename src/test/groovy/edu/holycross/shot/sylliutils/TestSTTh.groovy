@@ -10,7 +10,7 @@ class TestSTTh extends GroovyTestCase {
   String calFile = "testdata/f14.xml"
 
 
-
+  /*
   @Test void testFixed() {
     File outDir = new File("testout")
     if (outDir.exists()) {
@@ -22,7 +22,7 @@ class TestSTTh extends GroovyTestCase {
     STThCalendar stt = new STThCalendar(courseFile, calFile, outFile)
     System.err.println stt.extractFixedDates()
   }
-
+  */
 
   @Test void testCal() {
     File outDir = new File("testout")
@@ -34,6 +34,7 @@ class TestSTTh extends GroovyTestCase {
 
     STThCalendar stt = new STThCalendar(courseFile, calFile, outFile)
     assert stt
+    stt.debug = 8
 
     //LinkedHashMap fixedDates = mwf.extractFixedDates()
     //System.err.println mwf.getCourseDays()

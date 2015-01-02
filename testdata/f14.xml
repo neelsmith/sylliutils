@@ -1,14 +1,6 @@
 <calendar>
   <month name='September'>
     <week>
-      <day date='1' dayname='mon' mwf='1' mw='1' mtth='1' month='September' year='2014'>1</day>
-      <day date='2' dayname='tue' mtth='2' tth='1' month='September' year='2014' stth='1'>2</day>
-      <day date='3' dayname='wed' mwf='2' wed='1' month='September' year='2014'>3</day>
-      <day date='4' dayname='thu' mtth='3' tth='2' month='September' year='2014' stth='2'>4</day>
-      <day date='5' dayname='fri' mwf='3' month='September' year='2014'>5</day>
-      <day date='6' dayname='sat' month='September' year='2014'>6</day>
-    </week>
-    <week>
       <day date='7' dayname='sun' month='September' year='2014' stth='3'>7</day>
       <day date='8' dayname='mon' mwf='4' mw='2' mtth='4' month='September' year='2014'>8</day>
       <day date='9' dayname='tue' mtth='5' tth='3' month='September' year='2014' stth='4'>9</day>
