@@ -3,39 +3,65 @@ package edu.holycross.shot.sylliutils
 import groovy.xml.StreamingMarkupBuilder
 
 class STThCalendar {
-    boolean debug = false
-
-    File courseData
-    File calData
-    File outFile
-
-    def courseXml
-
-    // map of dates -> events
-    def fixedDates = [:]
-
-    // ordered list of pairings, key + label
-    def courseDays = []
-    def pairingDivider = '#'
+  
+  Integer debug = 0
+  Integer WARN = 1
+  Integer BUG = 2
+  Integer SHOUT = 3
 
 
-    STThCalendar(String courseFileName, String calFileName, File outputFile) 
-    throws Exception {
-        courseData = new File(courseFileName)
-        courseXml = new XmlParser().parse(this.courseData)        
-        calData = new File(calFileName)
-        this.outFile = outputFile
-    }
+  
+  /** File with XML version of course topics. */
+  File courseData
+  /** File with XML version of dates. */
+  File calData
+  /** Writable file for HTML output. */
+  File outFile
 
-    public static void main(String[] args) {
-        MonWedFriCalendar tt = new MonWedFriCalendar(args[0], args[1], args[2])
-        tt.printCal()
-    }
 
-    LinkedHashMap extractFixedDates() {
-        def fixedDateMap = [:]
-        this.courseXml.fixeddates[0].day.each { d ->
-            fixedDateMap.putAt(d.'@date', d.text())
+
+  /** Root of groovy XmlParser's parsing of the XML from courseData.*/
+  groovy.util.Node courseXml
+
+  /** Map of dates -> events */
+  def fixedDates = [:]
+
+  def highlights = []
+  
+  // ordered list of pairings, key + label
+  def courseDays = []
+  def pairingDivider = '#'
+
+
+  /** String to use in setting link to main css file,
+   * following link to normalize.css, and prior to
+   * calendar.css.
+   */
+  String mainCss = ""
+
+
+  /** Constructor requiring two input files and an output file.
+   * @param courseFileName Name of XML file with sequence of topics.
+   * @param calFileName Name of file with calendar data.
+   * @param outputFile Writable file for resulting HTML.
+   */
+  STThCalendar(String courseFileName, String calFileName, File outputFile) 
+  throws Exception {
+    courseData = new File(courseFileName)
+    courseXml = new XmlParser().parse(this.courseData)        
+    calData = new File(calFileName)
+    this.outFile = outputFile
+  }
+
+  public static void main(String[] args) {
+    MonWedFriCalendar tt = new MonWedFriCalendar(args[0], args[1], args[2])
+    tt.printCal()
+  }
+
+  LinkedHashMap extractFixedDates() {
+    def fixedDateMap = [:]
+    this.courseXml.fixeddates[0].day.each { d ->
+      fixedDateMap.putAt(d.'@date', d.text())
         }
         return fixedDateMap
     }
@@ -73,12 +99,12 @@ class STThCalendar {
 	  
 	}
 	stt.eachWithIndex { evt, i ->
-	  if (debug) { System.err.println "Proess EVT " + evt }
+	  if (debug > 0) { System.err.println "Proess EVT " + evt }
 	  def sunDateString = "${evt.'@month'} ${evt.'@date'}"
-	  if (debug) {System.err.println "Check on SUN date ${sunDateString}" }
+	  if (debug > 0) {System.err.println "Check on SUN date ${sunDateString}" }
 	  if (fixedDates[sunDateString]) {
                 
-	    if (debug) { System.err.println "FOUND FIXED DATE for ${sunDateString}:  " + fixedDates[sunDateString]}
+	    if (debug > 0) { System.err.println "FOUND FIXED DATE for ${sunDateString}:  " + fixedDates[sunDateString]}
 	    highlights.add(fixedDates[sunDateString])
 	  } else {
 	    //System.err.println "NO MATCH IN FIXED DATES FOR ${monDateString}"
@@ -102,7 +128,7 @@ class STThCalendar {
 	    } else {
 	      def tuesDateString =  "${nextEvt.'@month'} ${nextEvt.'@date'}"
 	      if (fixedDates[tuesDateString]) {
-		if (debug) { println "FIXED DATE: " + fixedDates[tuesDateString] }
+		if (debug > 0) { println "FIXED DATE: " + fixedDates[tuesDateString] }
 		highlights.add(fixedDates[tuesDateString])
 	      } else {
 		//System.err.println "NO FIXED DATE FOR WED ${wedDateString}"
@@ -113,7 +139,7 @@ class STThCalendar {
 
 	      def thursDateString =  "${thirdEvt.'@month'} ${thirdEvt.'@date'}"
 	      if (fixedDates[thursDateString]) {
-		if (debug) { println "FIXED DATE: " + fixedDates[thursDateString] }
+		if (debug > 0) { println "FIXED DATE: " + fixedDates[thursDateString] }
 		highlights.add(fixedDates[thursDateString])
 	      } else {
 		//System.err.println "NO FIXED DATE FOR FRI ${friDateString}"
@@ -126,7 +152,7 @@ class STThCalendar {
 		// SUNDAY:
 		td () {
 		  span(class : "dateLabel", "${sunDateString}") 
-		  if (debug) {println "Sun ${sunIdx}-${sunDateString} "}
+		  if (debug > 0) {println "Sun ${sunIdx}-${sunDateString} "}
 		  if (sunIdx < courseDays.size()) {
 		    def keyValArr = courseDays[sunIdx].split(pairingDivider)
 		    switch (keyValArr[0]) {
@@ -151,7 +177,7 @@ class STThCalendar {
 		// TUESDAY:
 		td () {
 		  span(class : "dateLabel", "${tuesDateString}") 
-		  if (debug) {println "Tues ${tuesIdx}-${tuesDateString} "}
+		  if (debug > 0) {println "Tues ${tuesIdx}-${tuesDateString} "}
 		  if (tuesIdx < courseDays.size()) {
 		    def keyValArr = courseDays[tuesIdx].split(pairingDivider)
 		    switch (keyValArr[0]) {
@@ -176,7 +202,7 @@ class STThCalendar {
 		// THURSDAY
 		td() {
 		  span(class : "dateLabel", "${thursDateString}") 
-		  if (debug) {println "Thurs ${thursIdx}-${thursDateString} "}
+		  if (debug > 0) {println "Thurs ${thursIdx}-${thursDateString} "}
 		  if (thursIdx < courseDays.size()) {
 		    def keyValArr = courseDays[thursIdx].split(pairingDivider)
 		    switch (keyValArr[0]) {
