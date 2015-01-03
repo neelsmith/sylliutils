@@ -34,7 +34,7 @@ class TThCalendar {
    * following link to normalize.css, and prior to
    * calendar.css.
    */
-  String mainCss = "css/greek.css"
+  String mainCss = ""
 
 
   /** Constructor requiring two input files and an output file.

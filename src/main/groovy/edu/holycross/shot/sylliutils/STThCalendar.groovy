@@ -38,7 +38,8 @@ class STThCalendar {
    * calendar.css.
    */
   String mainCss = ""
-
+  String cssDir = ""
+  
 
   /** Constructor requiring two input files and an output file.
    * @param courseFileName Name of XML file with sequence of topics.
@@ -81,7 +82,6 @@ class STThCalendar {
   Object buildHtmlTable() {
     def eventDates = new XmlParser().parse(calData)
     def stt = eventDates.month.week.day.findAll { it.'@stth' != null}
-    System.err.println  "number of STTh dates available = " + stt.size()
 
     // special events to highlight at end of week
     def highlights = []
@@ -239,55 +239,57 @@ class STThCalendar {
 	}
       }
     }
+    System.err.println "\n T is ${t.getClass()}"
+    return t
   }
 
-    void printCal() {
-      this.fixedDates = extractFixedDates()
+  void printCal() {
+    this.fixedDates = extractFixedDates()
 
-      def coursename = courseXml.coursename.text()
-      def lastmod = courseXml.lastmod.text()
+    def coursename = courseXml.coursename.text()
+    def lastmod = courseXml.lastmod.text()
 
-      def tab  = buildHtmlTable()
+    def tab  = buildHtmlTable()
 
-      def builder = new StreamingMarkupBuilder()
-      def htmlOut = builder.bind() {
-	//mkp.xmlDeclaration()
-	html {
-	  head {
-	    meta(charset : "UTF-8")
-	    title ("${coursename}: schedule")
-	    link (rel : "stylesheet", type : "text/css", href : "css/normalize.css")
-	    link (rel : "stylesheet", type : "text/css", href : "css/greek.css")
-	    link (rel : "stylesheet", type : "text/css", href : "css/calendar.css")
+    def builder = new StreamingMarkupBuilder()
+    def htmlOut = builder.bind() {
+      //mkp.xmlDeclaration()
+      html {
+	head {
+	  meta(charset : "UTF-8")
+	  title ("${coursename}: schedule")
+	  link (rel : "stylesheet", type : "text/css", href : "${cssDir}/normalize.css")
+	  link (rel : "stylesheet", type : "text/css", href : "${cssDir}/${mainCss}")
+	  link (rel : "stylesheet", type : "text/css", href : "${cssDir}/calendar.css")
+	}
+	body {
+	  header {
 	  }
-	  body {
-	    header {
-                    }
-                    nav {
-                        ul {
-                            li {
-                                mkp.yield "Course "
-                                a (href : "index.html","home page")
-                            }
-                            li {
-                                a (href : "requirements.html", "requirements")
-                            }
-                            
-                            li {
-                                a (href : "resources.html", "resources")
-                            }
-                        }
-                    }
+	  nav {
+	    ul {
+	      li {
+		mkp.yield "Course "
+		a (href : "index.html","home page")
+	      }
+	      li {
+		a (href : "requirements.html", "requirements")
+	      }
+              
+	      li {
+		a (href : "resources.html", "resources")
+	      }
+	    }
+	  }
 
-                    article {
-                        h1("Course schedule: ${coursename}")
-                        p (class : "lastmod", "${lastmod}")
-                        out << tab
-                    }
-                    footer {}
-                 }
-              }
-         }
-         outFile <<  htmlOut
+	  article {
+	    h1("Course schedule: ${coursename}")
+	    p (class : "lastmod", "${lastmod}")
+	    out << tab
+	  }
+	  footer {}
+	}
+      }
     }
+    outFile <<  htmlOut
+  }
 }

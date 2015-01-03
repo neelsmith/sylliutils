@@ -224,7 +224,7 @@ class MonWedFriCalendar {
                     meta(charset : "UTF-8")
                     title ("${coursename}: schedule")
                     link (rel : "stylesheet", type : "text/css", href : "css/normalize.css")
-                    link (rel : "stylesheet", type : "text/css", href : "css/greek.css")
+                    //link (rel : "stylesheet", type : "text/css", href : "")
                     link (rel : "stylesheet", type : "text/css", href : "css/calendar.css")
                 }
                 body {
