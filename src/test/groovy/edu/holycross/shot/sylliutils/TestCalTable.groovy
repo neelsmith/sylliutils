@@ -11,8 +11,11 @@ class TestCalTable extends GroovyTestCase {
 
   @Test void testCalStrings() {
     SylliCalendar stt = new SylliCalendar(courseFile, calFile)
+    stt.urlBase = "PREFIX/"
     assert stt
     String sttTab =  stt.getHtmlTable("stt")
+
+    println sttTab
     // test that this is well-formed HTML  with root element <table> ...
 
     String mwfTab =  stt.getHtmlTable("mwf")

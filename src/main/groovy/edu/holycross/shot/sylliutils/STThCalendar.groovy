@@ -22,9 +22,11 @@ class STThCalendar {
 
   /** 
    */
-  def pairingDivider = '#'
+  String pairingDivider = '#'
 
-
+  /** String to prefix to relative links in calendar events' "key" attribute
+   */
+  String urlBase = ""
 
   /** Constructor.*/
   STThCalendar(File calFile, ArrayList courseEvents, LinkedHashMap specialEvents) 
@@ -131,7 +133,7 @@ class STThCalendar {
 
 		    default:
 		    if (keyValArr.size() > 1) {
-		      a (href : "assignments/${keyValArr[0]}", "${keyValArr[1]}") 
+		      a (href : "${urlBase}${keyValArr[0]}", "${keyValArr[1]}") 
 		    } else {
 		      mkp.yield "${keyValArr}"
 		    }
@@ -156,7 +158,7 @@ class STThCalendar {
 
 		    default:
 		    if (keyValArr.size() > 1) {
-		      a (href : "assignments/${keyValArr[0]}", "${keyValArr[1]}") 
+		      a (href : "${urlBase}${keyValArr[0]}", "${keyValArr[1]}") 
 		    } else {
 		      mkp.yield "${keyValArr}"
 		    }
@@ -181,7 +183,7 @@ class STThCalendar {
 
 		    default:
 		    if (keyValArr.size() > 1) {
-		      a (href : "assignments/${keyValArr[0]}", "${keyValArr[1]}") 
+		      a (href : "${urlBase}${keyValArr[0]}", "${keyValArr[1]}") 
 		    } else {
 		      mkp.yield "${keyValArr}"
 		    }

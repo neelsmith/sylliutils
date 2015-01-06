@@ -20,6 +20,12 @@ class MonWedFriCalendar {
    */
   def pairingDivider = '#'
 
+  /** String to prefix to relative links in calendar events' "key" attribute
+   */
+  String urlBase = ""
+
+
+  
   /** Constructor.*/
   MonWedFriCalendar(File calFile, ArrayList courseEvents, LinkedHashMap specialEvents) 
   throws Exception {
@@ -108,7 +114,7 @@ class MonWedFriCalendar {
 		    
 		    default:
 		    if (keyValArr.size() > 1) {
-		      a (href : "assignments/${keyValArr[0]}", "${keyValArr[1]}") 
+		      a (href : "${urlBase}${keyValArr[0]}", "${keyValArr[1]}") 
 		    } else {
 		      mkp.yield "${keyValArr}"
 		    }
@@ -133,7 +139,7 @@ class MonWedFriCalendar {
 		    
 		    default:
 		    if (keyValArr.size() > 1) {
-		      a (href : "assignments/${keyValArr[0]}", "${keyValArr[1]}") 
+		      a (href : "${urlBase}${keyValArr[0]}", "${keyValArr[1]}") 
 		    } else {
 		      mkp.yield "${keyValArr}"
 		    }
@@ -158,7 +164,7 @@ class MonWedFriCalendar {
 		    
 		    default:
 		    if (keyValArr.size() > 1) {
-		      a (href : "assignments/${keyValArr[0]}", "${keyValArr[1]}") 
+		      a (href : "${urlBase}${keyValArr[0]}", "${keyValArr[1]}") 
 		    } else {
 		      mkp.yield "${keyValArr}"
 		    }

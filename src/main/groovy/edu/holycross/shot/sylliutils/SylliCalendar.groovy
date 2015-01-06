@@ -17,6 +17,9 @@ class SylliCalendar {
   /** Writable file for HTML output. */
   File outFile
 
+  /** String to prefix to relative links in calendar events' "key" attribute
+   */
+  String urlBase = ""
 
 
   /** Root of groovy XmlParser's parsing of the XML from courseData.*/
@@ -97,12 +100,14 @@ class SylliCalendar {
     switch (calType) {
     case "stt":
     STThCalendar sstCal = new STThCalendar(calData, getCourseDays(), extractFixedDates())
+    sstCal.urlBase = urlBase
     return sstCal.getHtmlTable()
     break
 
 
     case "mwf":
     MonWedFriCalendar mwfCal = new MonWedFriCalendar(calData, getCourseDays(), extractFixedDates())
+    mwfCal.urlBase = urlBase
     return mwfCal.getHtmlTable()
     break
 
