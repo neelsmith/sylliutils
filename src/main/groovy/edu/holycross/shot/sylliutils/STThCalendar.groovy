@@ -10,55 +10,36 @@ class STThCalendar {
   Integer SHOUT = 3
 
 
-  
-  /** File with XML version of course topics. */
-  File courseData
   /** File with XML version of dates. */
   File calData
-  /** Writable file for HTML output. */
-  File outFile
-
-
-
-  /** Root of groovy XmlParser's parsing of the XML from courseData.*/
-  groovy.util.Node courseXml
 
   /** Map of dates -> events */
   def fixedDates = [:]
 
-  def highlights = []
+  //def highlights = []
   
   // ordered list of pairings, key + label
   def courseDays = []
   def pairingDivider = '#'
 
 
-  /** String to use in setting link to main css file,
-   * following link to normalize.css, and prior to
-   * calendar.css.
-   */
-  String mainCss = ""
-  String cssDir = ""
-  
-
-  /** Constructor requiring two input files and an output file.
-   * @param courseFileName Name of XML file with sequence of topics.
-   * @param calFileName Name of file with calendar data.
-   * @param outputFile Writable file for resulting HTML.
-   */
-  STThCalendar(String courseFileName, String calFileName, File outputFile) 
+  STThCalendar(File calFile, ArrayList courseEvents, LinkedHashMap specialEvents) 
   throws Exception {
-    courseData = new File(courseFileName)
+    calData = calFile
+    courseDays = courseEvents
+    fixedDates = specialEvents
+
+  }
+
+
+  /*  STThCalendar(File courseFile, File calFile) 
+  throws Exception {
+    courseData = courseFile
     courseXml = new XmlParser().parse(this.courseData)        
-    calData = new File(calFileName)
-    this.outFile = outputFile
-  }
+    calData = calFile
+    }*/
 
-  public static void main(String[] args) {
-    MonWedFriCalendar tt = new MonWedFriCalendar(args[0], args[1], args[2])
-    tt.printCal()
-  }
-
+  /*
   LinkedHashMap extractFixedDates() {
     def fixedDateMap = [:]
     this.courseXml.fixeddates[0].day.each { d ->
@@ -66,7 +47,6 @@ class STThCalendar {
         }
         return fixedDateMap
     }
-
     ArrayList getCourseDays() {
         def dayList = []
         this.courseXml.day.each { d ->
@@ -78,7 +58,13 @@ class STThCalendar {
     }
 
 
+  */
 
+
+  /// NEEDS:
+  //  1.  calData.  XML calendar source
+  // fixedDates
+  // courseDays
   Object buildHtmlTable() {
     def eventDates = new XmlParser().parse(calData)
     def stt = eventDates.month.week.day.findAll { it.'@stth' != null}
@@ -239,13 +225,22 @@ class STThCalendar {
 	}
       }
     }
-    System.err.println "\n T is ${t.getClass()}"
     return t
   }
 
-  void printCal() {
-    this.fixedDates = extractFixedDates()
+  String getHtmlTable() {
+    def tab  = buildHtmlTable()
+    def builder = new StreamingMarkupBuilder()
+    def htmlOut = builder.bind() {
+      out << tab
+    }
+    return htmlOut.toString()
+  }
 
+  /*
+  void printCal() {
+
+    this.fixedDates = extractFixedDates()
     def coursename = courseXml.coursename.text()
     def lastmod = courseXml.lastmod.text()
 
@@ -292,4 +287,5 @@ class STThCalendar {
     }
     outFile <<  htmlOut
   }
+  */
 }
