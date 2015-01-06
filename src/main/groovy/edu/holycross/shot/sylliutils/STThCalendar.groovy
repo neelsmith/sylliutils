@@ -16,13 +16,17 @@ class STThCalendar {
   /** Map of dates -> events */
   def fixedDates = [:]
 
-  //def highlights = []
-  
-  // ordered list of pairings, key + label
+  /** ordered list of pairings, key + label
+   */
   def courseDays = []
+
+  /** 
+   */
   def pairingDivider = '#'
 
 
+
+  /** Constructor.*/
   STThCalendar(File calFile, ArrayList courseEvents, LinkedHashMap specialEvents) 
   throws Exception {
     calData = calFile
@@ -32,39 +36,15 @@ class STThCalendar {
   }
 
 
-  /*  STThCalendar(File courseFile, File calFile) 
-  throws Exception {
-    courseData = courseFile
-    courseXml = new XmlParser().parse(this.courseData)        
-    calData = calFile
-    }*/
-
-  /*
-  LinkedHashMap extractFixedDates() {
-    def fixedDateMap = [:]
-    this.courseXml.fixeddates[0].day.each { d ->
-      fixedDateMap.putAt(d.'@date', d.text())
-        }
-        return fixedDateMap
-    }
-    ArrayList getCourseDays() {
-        def dayList = []
-        this.courseXml.day.each { d ->
-            def pairing = d.'@key' +  pairingDivider + d.text()
-            dayList.add(pairing)
-        }            
-        System.err.println "Number of events to schedule = " + dayList.size()
-        return dayList
-    }
-
-
-  */
 
 
   /// NEEDS:
   //  1.  calData.  XML calendar source
   // fixedDates
   // courseDays
+  /** Builds a closure creating an HTML table element
+   * suitable for using with a groovy markup builder.
+   */
   Object buildHtmlTable() {
     def eventDates = new XmlParser().parse(calData)
     def stt = eventDates.month.week.day.findAll { it.'@stth' != null}
@@ -73,7 +53,7 @@ class STThCalendar {
     def highlights = []
 
 
-    def builder = new StreamingMarkupBuilder()
+    //def builder = new StreamingMarkupBuilder()
     // INCLUDE XML DECLARATAION
     def t = {
       table {
@@ -228,6 +208,11 @@ class STThCalendar {
     return t
   }
 
+  /**
+   * Creates a String with the HTML for a Sun/Tues/Thurs calendar.
+   * @return A String of well-formed HTML consisting of a single
+   * <table> element.
+   */
   String getHtmlTable() {
     def tab  = buildHtmlTable()
     def builder = new StreamingMarkupBuilder()
@@ -236,56 +221,4 @@ class STThCalendar {
     }
     return htmlOut.toString()
   }
-
-  /*
-  void printCal() {
-
-    this.fixedDates = extractFixedDates()
-    def coursename = courseXml.coursename.text()
-    def lastmod = courseXml.lastmod.text()
-
-    def tab  = buildHtmlTable()
-
-    def builder = new StreamingMarkupBuilder()
-    def htmlOut = builder.bind() {
-      //mkp.xmlDeclaration()
-      html {
-	head {
-	  meta(charset : "UTF-8")
-	  title ("${coursename}: schedule")
-	  link (rel : "stylesheet", type : "text/css", href : "${cssDir}/normalize.css")
-	  link (rel : "stylesheet", type : "text/css", href : "${cssDir}/${mainCss}")
-	  link (rel : "stylesheet", type : "text/css", href : "${cssDir}/calendar.css")
-	}
-	body {
-	  header {
-	  }
-	  nav {
-	    ul {
-	      li {
-		mkp.yield "Course "
-		a (href : "index.html","home page")
-	      }
-	      li {
-		a (href : "requirements.html", "requirements")
-	      }
-              
-	      li {
-		a (href : "resources.html", "resources")
-	      }
-	    }
-	  }
-
-	  article {
-	    h1("Course schedule: ${coursename}")
-	    p (class : "lastmod", "${lastmod}")
-	    out << tab
-	  }
-	  footer {}
-	}
-      }
-    }
-    outFile <<  htmlOut
-  }
-  */
 }

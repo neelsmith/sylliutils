@@ -100,6 +100,12 @@ class SylliCalendar {
     return sstCal.getHtmlTable()
     break
 
+
+    case "mwf":
+    MonWedFriCalendar mwfCal = new MonWedFriCalendar(calData, getCourseDays(), extractFixedDates())
+    return mwfCal.getHtmlTable()
+    break
+
     default:
     throw new Exception("Calendar:buildHtmlTable: unrecognized calendar type '" + calType + "'")
     break
