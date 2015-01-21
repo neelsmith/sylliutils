@@ -108,6 +108,9 @@ class SylliCalendar {
     case "mwf":
     MonWedFriCalendar mwfCal = new MonWedFriCalendar(calData, getCourseDays(), extractFixedDates())
     mwfCal.urlBase = urlBase
+    if (this.debug > 0) {
+      mwfCal.debug = true
+    }
     return mwfCal.getHtmlTable()
     break
 
